@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auto Pilotz — Vehicle Compatibility Checker</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Share+Tech+Mono&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #050507;
+    --panel: #0f0f18;
+    --border: #1a1a2e;
+    --blue: #1a6ef5;
+    --blue-bright: #3d8cff;
+    --blue-glow: rgba(26,110,245,0.35);
+    --chrome-light: #e8eaf0;
+    --chrome-mid: #9aa0b0;
+    --green: #00e676;
+    --red: #ff4d4d;
+    --text: #c8ccd8;
+    --muted: #5a5f72;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(26,110,245,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26,110,245,0.04) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 48px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(5,5,7,0.85);
+    backdrop-filter: blur(12px);
+  }
+
+
+  .logo-wrap img { height: 80px; width: 80px; object-fit: contain; }
+
+  .hero { position: relative; z-index: 1; text-align: center; padding: 80px 24px 48px; }
+
+  .eyebrow { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--blue-bright); margin-bottom: 20px; opacity: 0.85; }
+
+  h1 { font-family: 'Rajdhani', sans-serif; font-size: clamp(2.4rem, 6vw, 4.2rem); font-weight: 700; line-height: 1.05; letter-spacing: 0.04em; text-transform: uppercase; color: var(--chrome-light); margin-bottom: 16px; }
+
+  h1 em { font-style: normal; background: linear-gradient(135deg, var(--blue-bright) 0%, #7ab8ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+  .hero-sub { font-size: 1rem; color: var(--muted); max-width: 480px; margin: 0 auto 56px; font-weight: 400; letter-spacing: 0.01em; }
+
+  .checker-wrap { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 0 24px 60px; }
+
+  .checker-card { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 44px 44px 40px; position: relative; overflow: hidden; box-shadow: 0 0 0 1px rgba(26,110,245,0.12), 0 32px 64px rgba(0,0,0,0.6), 0 0 80px rgba(26,110,245,0.06); }
+
+  .checker-card::before, .checker-card::after { content: ''; position: absolute; width: 24px; height: 24px; border-color: var(--blue); border-style: solid; }
+  .checker-card::before { top: 14px; left: 14px; border-width: 2px 0 0 2px; }
+  .checker-card::after  { bottom: 14px; right: 14px; border-width: 0 2px 2px 0; }
+
+  .card-label { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue-bright); margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+  .card-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--blue) 0%, transparent 100%); opacity: 0.4; }
+
+  .fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+  .field-group { display: flex; flex-direction: column; gap: 8px; }
+  .field-group label { font-family: 'Rajdhani', sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--chrome-mid); }
+
+  select { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 8px; color: var(--chrome-light); font-family: 'Inter', sans-serif; font-size: 0.95rem; padding: 13px 14px; outline: none; transition: border-color 0.2s, box-shadow 0.2s, background 0.2s; appearance: none; -webkit-appearance: none; cursor: pointer; }
+  select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,110,245,0.18); background: rgba(26,110,245,0.06); }
+  select option { background: #111118; }
+
+  .btn-check { width: 100%; padding: 16px; background: var(--blue); border: none; border-radius: 10px; color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.05rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: background 0.2s, box-shadow 0.2s, transform 0.1s; }
+  .btn-check:hover { background: var(--blue-bright); box-shadow: 0 0 24px var(--blue-glow), 0 4px 12px rgba(0,0,0,0.4); }
+  .btn-check:active { transform: scale(0.985); }
+
+  .scan-line { position: absolute; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--blue-bright), transparent); top: 0; pointer-events: none; opacity: 0; }
+  .scanning .scan-line { animation: scan 1.2s ease-in-out forwards; }
+  @keyframes scan { 0% { top: 0%; opacity: 0.9; } 100% { top: 100%; opacity: 0; } }
+
+  .result { margin-top: 28px; border-radius: 10px; padding: 24px; display: none; animation: fadeUp 0.35s ease forwards; }
+  .result.visible { display: flex; align-items: center; gap: 16px; }
+  .result.compatible     { background: rgba(0,230,118,0.07); border: 1px solid rgba(0,230,118,0.3); }
+  .result.not-compatible { background: rgba(255,77,77,0.07);  border: 1px solid rgba(255,77,77,0.25); }
+  .result-icon { font-size: 1.8rem; line-height: 1; flex-shrink: 0; }
+  .result-body { flex: 1; }
+  .result-title { font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .result.compatible .result-title     { color: var(--green); }
+  .result.not-compatible .result-title { color: var(--red); }
+  .result-msg { font-size: 0.9rem; color: var(--text); line-height: 1.55; margin-top: 4px; }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* FAQ */
+  .faq-section { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 0 24px 80px; }
+
+  .faq-heading { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue-bright); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+  .faq-heading::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--blue) 0%, transparent 100%); opacity: 0.4; }
+
+  .faq-item { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; background: var(--panel); }
+
+  .faq-question { width: 100%; background: none; border: none; text-align: left; padding: 18px 20px; font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 600; letter-spacing: 0.03em; color: var(--chrome-light); cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; transition: color 0.2s; }
+  .faq-question:hover { color: var(--blue-bright); }
+  .faq-arrow { flex-shrink: 0; font-size: 0.7rem; color: var(--blue-bright); transition: transform 0.25s; }
+  .faq-item.open .faq-arrow { transform: rotate(180deg); }
+
+  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.25s; padding: 0 20px; font-size: 0.9rem; color: var(--text); line-height: 1.75; }
+  .faq-item.open .faq-answer { max-height: 1400px; padding: 0 20px 20px; }
+  .faq-answer ul { padding-left: 18px; margin-top: 10px; }
+  .faq-answer li { margin-bottom: 5px; }
+  .faq-answer p + p { margin-top: 10px; }
+  .faq-answer ol { padding-left: 18px; margin-top: 10px; }
+
+  @media (max-width: 680px) {
+    header { padding: 16px 20px; }
+    .checker-card { padding: 28px 20px; }
+    .fields { grid-template-columns: 1fr; }
+    h1 { font-size: 2rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scan-line { animation: none !important; }
+    .result    { animation: none !important; }
+    .faq-answer { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-wrap">
+    <img src="autopilotz_logo.jpeg" alt="Auto Pilotz Logo">
+  </div>
+</header>
+
+<section class="hero">
+  <p class="eyebrow">&#9656; Self-Drive System &nbsp;|&nbsp; Vehicle Lookup</p>
+  <h1>Is Your Car<br><em>Autopilot Ready?</em></h1>
+  <p class="hero-sub">Enter your vehicle details below to instantly check compatibility with the self-drive system.</p>
+</section>
+
+<div class="checker-wrap">
+  <div class="checker-card" id="checkerCard">
+    <div class="scan-line" id="scanLine"></div>
+    <div class="card-label">Vehicle Compatibility Check</div>
+    <div class="fields">
+      <div class="field-group">
+        <label for="year">Year</label>
+        <select id="year"><option value="">Select Year</option></select>
+      </div>
+      <div class="field-group">
+        <label for="make">Make</label>
+        <select id="make"><option value="">Select Make</option></select>
+      </div>
+      <div class="field-group">
+        <label for="model">Model</label>
+        <select id="model"><option value="">Select Model</option></select>
+      </div>
+    </div>
+    <button class="btn-check" onclick="checkCompatibility()">Check Compatibility</button>
+    <div class="result" id="result">
+      <div class="result-icon" id="resultIcon"></div>
+      <div class="result-body">
+        <div class="result-title" id="resultTitle"></div>
+        <div class="result-msg" id="resultMsg"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+  <div class="faq-heading">Frequently Asked Questions</div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      What is this self-drive system?
+      <span class="faq-arrow">&#9660;</span>
+    </button>
+    <div class="faq-answer">
+      <p>This is an open source driver-assistance system that performs the functions of Adaptive Cruise Control (ACC) and Automated Lane Centering (ALC) for compatible vehicles. It performs similarly to Tesla Autopilot and GM Super Cruise. The system can steer, accelerate, and brake automatically relative to other vehicles within its lane.</p>
+      <p>To enforce driver alertness, the system includes a camera-based Driver Monitoring (DM) system that alerts the driver when distracted or asleep. The system is built around two core safety principles:</p>
+      <ol>
+        <li>The driver must always be capable of immediately retaking manual control of the vehicle, by stepping on either pedal or by pressing the cancel button.</li>
+        <li>The vehicle must not alter its trajectory too quickly for the driver to safely react. While the system is engaged, the actuators are constrained to operate within reasonable limits.</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      Do I have to pay attention while it's active?
+      <span class="faq-arrow">&#9660;</span>
+    </button>
+    <div class="faq-answer">
+      <p>Yes. The driver must always be able to immediately retake manual control of the vehicle by stepping on the brake pedal or pressing the cancel button. When the system is engaged, a driver monitoring system actively tracks driver awareness to help prevent distractions. The system disengages if you are distracted. Drivers must keep their eyes on the road at all times and be ready to take control of the car.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      How does the system work?
+      <span class="faq-arrow">&#9660;</span>
+    </button>
+    <div class="faq-answer">
+      <p>The system works by connecting to your car's CAN network. Most modern cars accept electronic steering, gas, and brake commands to allow for driver assistance features. The system uses these commands to provide driver assistance features beyond what the car manufacturer provides from the factory.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      What are the limitations of Automated Lane Centering?
+      <span class="faq-arrow">&#9660;</span>
+    </button>
+    <div class="faq-answer">
+      <p>The Automated Lane Centering (ALC) system does not automatically drive the vehicle or reduce the amount of attention that must be paid to the area in front of the vehicle. The driver must always keep control of the steering wheel and be ready to correct the system at all times.</p>
+      <p>Many factors can impact performance, including but not limited to:</p>
+      <ul>
+        <li>Poor visibility (heavy rain, snow, fog, etc.) or weather conditions interfering with sensor operation</li>
+        <li>The road-facing camera obstructed, covered, or damaged by mud, ice, or snow</li>
+        <li>Excessive paint or adhesive products (wraps, stickers, rubber coating, etc.) applied to the vehicle</li>
+        <li>Incorrect device mounting</li>
+        <li>Sharp curves such as on/off ramps or intersections — steering torque is intentionally limited</li>
+        <li>Restricted lanes or construction zones</li>
+        <li>Highly banked roads or strong cross-wind</li>
+        <li>Extremely hot or cold temperatures</li>
+        <li>Bright light from oncoming headlights or direct sunlight</li>
+        <li>Hills, narrow, or winding roads</li>
+      </ul>
+      <p>It is the driver's responsibility to be in control of the vehicle at all times.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      What are the limitations of Adaptive Cruise Control?
+      <span class="faq-arrow">&#9660;</span>
+    </button>
+    <div class="faq-answer">
+      <p>Adaptive Cruise Control (ACC) is not a system that allows careless or inattentive driving. The driver must pay close attention to the vehicle's surroundings and be ready to retake control of the gas and brake at all times.</p>
+      <p>Many factors can impact performance, including but not limited to:</p>
+      <ul>
+        <li>Poor visibility (heavy rain, snow, fog, etc.) or weather conditions interfering with sensor operation</li>
+        <li>The road-facing camera or radar obstructed, covered, or damaged by mud, ice, or snow</li>
+        <li>Excessive paint or adhesive products applied to the vehicle</li>
+        <li>Incorrect device mounting</li>
+        <li>Approaching a toll booth</li>
+        <li>Roads with pedestrians or cyclists</li>
+        <li>Traffic signs or stop lights — these are not detected by the system at this time</li>
+        <li>Posted speed limits below the user-selected set speed — speed limits are not detected at this time</li>
+        <li>Vehicles in the same lane that are not moving</li>
+        <li>Situations requiring abrupt braking — deceleration and acceleration are intentionally limited</li>
+        <li>Surrounding vehicles performing close cut-ins from adjacent lanes</li>
+        <li>Hills, narrow, or winding roads</li>
+        <li>Extremely hot or cold temperatures</li>
+        <li>Bright light from oncoming headlights or direct sunlight</li>
+        <li>Interference from equipment that generates ultrasonic waves</li>
+      </ul>
+      <p>It is the driver's responsibility to be in control of the vehicle at all times.</p>
+    </div>
+  </div>
+
+  <div class="faq-item">
+    <button class="faq-question" onclick="toggleFaq(this)">
+      Does the system work at all speeds?
+      <span class="faq-arrow">&#9660;</span>
+    </button>
+    <div class="faq-answer">
+      <p>Supported speeds vary depending on the vehicle. Please reference the compatibility checker above for vehicle-specific limitations. The maximum speed matches the maximum speed that the vehicle's stock ACC can be set to, with a hard limit of approximately 92 mph.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const compatibleVehicles = {
+  "Acura": {
+    "ILX": [2016,2017,2018,2019],
+    "MDX": [2022,2023,2024,2025,2026],
+    "RDX": [2016,2017,2018,2019,2020,2021],
+    "TLX": [2021,2022,2025]
+  },
+  "Audi": {
+    "A3": [2014,2015,2016,2017,2018,2019],
+    "A3 Sportback e-tron": [2017,2018],
+    "Q2": [2018],
+    "Q3": [2019,2020,2021,2022,2023,2024],
+    "RS3": [2018],
+    "S3": [2015,2016,2017]
+  },
+  "Chevrolet": {
+    "Bolt EUV": [2022,2023],
+    "Bolt EV": [2022,2023],
+    "Equinox": [2019,2020,2021,2022],
+    "Silverado 1500": [2020,2021],
+    "Trailblazer": [2021,2022]
+  },
+  "Chrysler": {
+    "Pacifica": [2017,2018,2019,2020,2021,2022,2023],
+    "Pacifica Hybrid": [2017,2018,2019,2020,2021,2022,2023,2024,2025]
+  },
+  "CUPRA": {
+    "Ateca": [2018,2019,2020,2021,2022,2023]
+  },
+  "Dodge": {
+    "Durango": [2020,2021]
+  },
+  "Ford": {
+    "Bronco Sport": [2021,2022,2023,2024],
+    "Escape": [2020,2021,2022,2023,2024],
+    "Escape Hybrid": [2020,2021,2022,2023,2024],
+    "Escape Plug-in Hybrid": [2020,2021,2022,2023,2024],
+    "Expedition": [2022,2023,2024],
+    "Explorer": [2020,2021,2022,2023,2024],
+    "Explorer Hybrid": [2020,2021,2022,2023,2024],
+    "F-150": [2021,2022,2023],
+    "F-150 Hybrid": [2021,2022,2023],
+    "Focus": [2018,2019,2020,2021,2022],
+    "Focus Hybrid": [2018,2019,2020,2021,2022],
+    "Kuga": [2020,2021,2022,2023],
+    "Kuga Hybrid": [2020,2021,2022,2023,2024],
+    "Kuga Plug-in Hybrid": [2020,2021,2022,2023,2024],
+    "Maverick": [2022,2023,2024],
+    "Maverick Hybrid": [2022,2023,2024],
+    "Mustang Mach-E": [2021,2022,2023,2024],
+    "Ranger": [2024]
+  },
+  "Genesis": {
+    "G70": [2018,2019,2020,2021,2022,2023],
+    "G80": [2017,2018,2019,2024],
+    "G80 (2.5T Advanced Trim, with HDA II)": [2024],
+    "G90": [2017,2018,2019,2020],
+    "GV60 (Advanced Trim)": [2023],
+    "GV60 (Performance Trim)": [2022,2023],
+    "GV70 (2.5T Trim, without HDA II)": [2022,2023,2024],
+    "GV70 (3.5T Trim, without HDA II)": [2022,2023],
+    "GV70 Electrified (Australia Only)": [2022],
+    "GV70 Electrified (with HDA II)": [2023,2024],
+    "GV80": [2023]
+  },
+  "GMC": {
+    "Sierra 1500": [2020,2021]
+  },
+  "Honda": {
+    "Accord": [2018,2019,2020,2021,2022,2023,2024,2025],
+    "Accord Hybrid": [2018,2019,2020,2021,2022,2023,2024,2025,2026],
+    "City (Brazil only)": [2023],
+    "Civic": [2016,2017,2018,2019,2020,2021,2022,2023,2024],
+    "Civic Hatchback": [2017,2018,2019,2020,2021,2022,2023,2024],
+    "Civic Hatchback Hybrid": [2025,2026],
+    "Civic Hatchback Hybrid (Europe only)": [2023],
+    "Civic Hybrid": [2025,2026],
+    "CR-V": [2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026],
+    "CR-V Hybrid": [2017,2018,2019,2020,2021,2022,2023,2024,2025,2026],
+    "e": [2020],
+    "Fit": [2018,2019,2020],
+    "Freed": [2020],
+    "HR-V": [2019,2020,2021,2022,2023,2024,2025],
+    "Insight": [2019,2020,2021,2022],
+    "Inspire": [2018],
+    "N-Box": [2018],
+    "Odyssey": [2018,2019,2020,2021,2022,2023,2024,2025,2026],
+    "Odyssey (Singapore)": [2021],
+    "Odyssey (Taiwan)": [2018,2019],
+    "Passport": [2019,2020,2021,2022,2023,2024,2025,2026],
+    "Pilot": [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
+    "Ridgeline": [2017,2018,2019,2020,2021,2022,2023,2024,2025]
+  },
+  "Hyundai": {
+    "Azera": [2022],
+    "Azera Hybrid": [2019,2020],
+    "Custin": [2023],
+    "Elantra": [2017,2018,2019,2021,2022,2023],
+    "Elantra GT": [2017,2018,2019,2020],
+    "Elantra Hybrid": [2021,2022,2023],
+    "Genesis": [2015,2016],
+    "i30": [2017,2018,2019],
+    "Ioniq 5 (Southeast Asia and Europe only)": [2022,2023,2024],
+    "Ioniq 5 (with HDA II)": [2022,2023,2024],
+    "Ioniq 5 (without HDA II)": [2022,2023,2024],
+    "Ioniq 6 (with HDA II)": [2023,2024],
+    "Ioniq 6 (without HDA II)": [2023,2024],
+    "Ioniq Electric": [2019,2020],
+    "Ioniq Hybrid": [2017,2018,2019,2020,2021,2022],
+    "Ioniq Plug-in Hybrid": [2019,2020,2021,2022],
+    "Kona": [2020],
+    "Kona Electric": [2018,2019,2020,2021,2022,2023],
+    "Kona Electric (with HDA II, Korea only)": [2023],
+    "Kona Hybrid": [2020],
+    "Nexo": [2021],
+    "Palisade": [2020,2021,2022],
+    "Santa Cruz": [2022,2023,2024],
+    "Santa Fe": [2019,2020,2021,2022,2023],
+    "Santa Fe Hybrid": [2022,2023],
+    "Santa Fe Plug-in Hybrid": [2022,2023],
+    "Sonata": [2018,2019,2020,2021,2022,2023],
+    "Sonata Hybrid": [2020,2021,2022,2023],
+    "Staria": [2023],
+    "Tucson": [2021,2022,2023,2024],
+    "Tucson Diesel": [2019],
+    "Tucson Hybrid": [2022,2023,2024],
+    "Tucson Plug-in Hybrid": [2024],
+    "Veloster": [2019,2020]
+  },
+  "Jeep": {
+    "Grand Cherokee": [2016,2017,2018,2019,2020,2021]
+  },
+  "Kia": {
+    "Carnival": [2022,2023,2024],
+    "Carnival (China only)": [2023],
+    "Ceed": [2019,2020,2021],
+    "EV6 (Southeast Asia only)": [2022,2023,2024],
+    "EV6 (with HDA II)": [2022,2023,2024],
+    "EV6 (without HDA II)": [2022,2023,2024],
+    "Forte": [2019,2020,2021,2022,2023],
+    "K5": [2021,2022,2023,2024],
+    "K5 Hybrid": [2020,2021,2022],
+    "K7": [2017],
+    "K8 Hybrid (with HDA II)": [2023],
+    "Niro EV": [2019,2020,2021,2022,2023,2024,2025],
+    "Niro EV (with HDA II)": [2024,2025],
+    "Niro EV (without HDA II)": [2023,2024,2025],
+    "Niro Hybrid": [2018,2021,2022,2023,2024],
+    "Niro Plug-in Hybrid": [2018,2019,2020,2021,2022],
+    "Optima": [2017,2019,2020],
+    "Optima Hybrid": [2019],
+    "Seltos": [2021],
+    "Sorento": [2018,2019,2021,2022,2023],
+    "Sorento Hybrid": [2021,2022,2023],
+    "Sorento Plug-in Hybrid": [2022,2023],
+    "Sportage": [2023,2024],
+    "Sportage Hybrid": [2023],
+    "Stinger": [2018,2019,2020,2022,2023],
+    "Telluride": [2020,2021,2022]
+  },
+  "Lexus": {
+    "CT Hybrid": [2017,2018],
+    "ES": [2017,2018,2019,2020,2021,2022,2023,2024,2025],
+    "ES Hybrid": [2017,2018,2019,2020,2021,2022,2023,2024,2025],
+    "GS F": [2016],
+    "IS": [2017,2018,2019,2022,2023,2024],
+    "LC": [2024,2025],
+    "LS": [2018],
+    "NX": [2018,2019,2020,2021],
+    "NX Hybrid": [2018,2019,2020,2021],
+    "RC": [2018,2019,2020,2023],
+    "RX": [2016,2017,2018,2019,2020,2021,2022],
+    "RX Hybrid": [2016,2017,2018,2019,2020,2021,2022],
+    "UX Hybrid": [2019,2020,2021,2022,2023,2024]
+  },
+  "Lincoln": {
+    "Aviator": [2020,2021,2022,2023,2024],
+    "Aviator Plug-in Hybrid": [2020,2021,2022,2023,2024]
+  },
+  "MAN": {
+    "eTGE": [2020,2021,2022,2023,2024],
+    "TGE": [2017,2018,2019,2020,2021,2022,2023,2024]
+  },
+  "Mazda": {
+    "CX-5": [2022,2023,2024,2025],
+    "CX-9": [2021,2022,2023]
+  },
+  "Nissan": {
+    "Altima": [2019,2020,2021,2022,2023,2024],
+    "Leaf": [2018,2019,2020,2021,2022,2023],
+    "Rogue": [2018,2019,2020],
+    "X-Trail": [2017]
+  },
+  "Ram": {
+    "1500": [2019,2020,2021,2022,2023,2024]
+  },
+  "Rivian": {
+    "R1S": [2022,2023,2024],
+    "R1T": [2022,2023,2024]
+  },
+  "SEAT": {
+    "Ateca": [2016,2017,2018,2019,2020,2021,2022,2023],
+    "Leon": [2014,2015,2016,2017,2018,2019,2020]
+  },
+  "Subaru": {
+    "Ascent": [2019,2020,2021],
+    "Crosstrek": [2018,2019,2020,2021,2022,2023],
+    "Forester": [2019,2020,2021],
+    "Impreza": [2017,2018,2019,2020,2021,2022],
+    "Legacy": [2020,2021,2022],
+    "Outback": [2020,2021,2022],
+    "XV": [2018,2019,2020,2021]
+  },
+  "Skoda": {
+    "Fabia": [2022,2023],
+    "Kamiq": [2021,2022,2023],
+    "Karoq": [2019,2020,2021,2022,2023],
+    "Kodiaq": [2017,2018,2019,2020,2021,2022,2023],
+    "Octavia": [2015,2016,2017,2018,2019],
+    "Octavia RS": [2016],
+    "Octavia Scout": [2017,2018,2019],
+    "Scala": [2020,2021,2022,2023],
+    "Superb": [2015,2016,2017,2018,2019,2020,2021,2022]
+  },
+  "Tesla": {
+    "Model 3 (with HW3)": [2019,2020,2021,2022,2023],
+    "Model 3 (with HW4)": [2024,2025],
+    "Model Y (with HW3)": [2020,2021,2022,2023],
+    "Model Y (with HW4)": [2024,2025]
+  },
+  "Toyota": {
+    "Alphard": [2019,2020,2021],
+    "Alphard Hybrid": [2021],
+    "Avalon": [2016,2017,2018,2019,2020,2021,2022],
+    "Avalon Hybrid": [2019,2020,2021,2022],
+    "C-HR": [2017,2018,2019,2020,2021],
+    "C-HR Hybrid": [2017,2018,2019,2020,2021,2022],
+    "Camry": [2018,2019,2020,2021,2022,2023,2024],
+    "Camry Hybrid": [2018,2019,2020,2021,2022,2023,2024],
+    "Corolla": [2017,2018,2019,2020,2021,2022],
+    "Corolla Cross (Non-US only)": [2020,2021,2022,2023],
+    "Corolla Cross Hybrid (Non-US only)": [2020,2021,2022],
+    "Corolla Hatchback": [2019,2020,2021,2022],
+    "Corolla Hybrid": [2020,2021,2022,2023],
+    "Highlander": [2017,2018,2019,2020,2021,2022,2023],
+    "Highlander Hybrid": [2017,2018,2019,2020,2021,2022,2023],
+    "Mirai": [2021],
+    "Prius": [2016,2017,2018,2019,2020,2021,2022],
+    "Prius Prime": [2017,2018,2019,2020,2021,2022],
+    "Prius v": [2017],
+    "RAV4": [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
+    "RAV4 Hybrid": [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
+    "Sienna": [2018,2019,2020]
+  },
+  "Volkswagen": {
+    "Arteon": [2018,2019,2020,2021,2022,2023],
+    "Arteon eHybrid": [2020,2021,2022,2023],
+    "Arteon R": [2020,2021,2022,2023],
+    "Arteon Shooting Brake": [2020,2021,2022,2023],
+    "Atlas": [2018,2019,2020,2021,2022,2023],
+    "Atlas Cross Sport": [2020,2021,2022],
+    "California": [2021,2022,2023],
+    "Caravelle": [2020],
+    "CC": [2018,2019,2020,2021,2022],
+    "Crafter": [2017,2018,2019,2020,2021,2022,2023,2024],
+    "e-Crafter": [2018,2019,2020,2021,2022,2023,2024],
+    "e-Golf": [2014,2015,2016,2017,2018,2019,2020],
+    "Golf": [2015,2016,2017,2018,2019,2020],
+    "Golf Alltrack": [2015,2016,2017,2018,2019],
+    "Golf GTD": [2015,2016,2017,2018,2019,2020],
+    "Golf GTE": [2015,2016,2017,2018,2019,2020],
+    "Golf GTI": [2015,2016,2017,2018,2019,2020,2021],
+    "Golf R": [2015,2016,2017,2018,2019],
+    "Golf SportsVan": [2015,2016,2017,2018,2019,2020],
+    "Grand California": [2019,2020,2021,2022,2023,2024],
+    "Jetta": [2019,2020,2021,2022,2023],
+    "Jetta GLI": [2021,2022,2023],
+    "Passat": [2015,2016,2017,2018,2019,2020,2021,2022],
+    "Passat Alltrack": [2015,2016,2017,2018,2019,2020,2021,2022],
+    "Passat GTE": [2015,2016,2017,2018,2019,2020,2021,2022],
+    "Polo": [2018,2019,2020,2021,2022,2023],
+    "Polo GTI": [2018,2019,2020,2021,2022,2023],
+    "T-Cross": [2021],
+    "T-Roc": [2018,2019,2020,2021,2022,2023],
+    "Taos": [2022,2023,2024],
+    "Teramont": [2018,2019,2020,2021,2022],
+    "Teramont Cross Sport": [2021,2022],
+    "Teramont X": [2021,2022],
+    "Tiguan": [2018,2019,2020,2021,2022,2023,2024],
+    "Tiguan eHybrid": [2021,2022,2023],
+    "Touran": [2016,2017,2018,2019,2020,2021,2022,2023]
+  }
+};
+
+const yearSel  = document.getElementById('year');
+const makeSel  = document.getElementById('make');
+const modelSel = document.getElementById('model');
+
+const currentYear = new Date().getFullYear() + 1;
+for (let y = currentYear; y >= 2014; y--) {
+  const opt = document.createElement('option');
+  opt.value = y; opt.textContent = y;
+  yearSel.appendChild(opt);
+}
+
+Object.keys(compatibleVehicles).sort().forEach(m => {
+  const opt = document.createElement('option');
+  opt.value = m; opt.textContent = m;
+  makeSel.appendChild(opt);
+});
+
+makeSel.addEventListener('change', () => {
+  modelSel.innerHTML = '<option value="">Select Model</option>';
+  const sel = makeSel.value;
+  if (!sel) return;
+  Object.keys(compatibleVehicles[sel] || {}).sort().forEach(m => {
+    const opt = document.createElement('option');
+    opt.value = m; opt.textContent = m;
+    modelSel.appendChild(opt);
+  });
+  clearResult();
+});
+
+yearSel.addEventListener('change', clearResult);
+modelSel.addEventListener('change', clearResult);
+
+function clearResult() {
+  const r = document.getElementById('result');
+  r.className = 'result';
+  r.style.display = 'none';
+}
+
+function checkCompatibility() {
+  const year  = parseInt(yearSel.value);
+  const make  = makeSel.value;
+  const model = modelSel.value;
+
+  if (!year || !make || !model) {
+    pulseField(!year ? 'year' : !make ? 'make' : 'model');
+    return;
+  }
+
+  const card = document.getElementById('checkerCard');
+  card.classList.remove('scanning');
+  void card.offsetWidth;
+  card.classList.add('scanning');
+
+  setTimeout(() => {
+    card.classList.remove('scanning');
+    showResult(year, make, model);
+  }, 1200);
+}
+
+function showResult(year, make, model) {
+  const resultEl = document.getElementById('result');
+  const titleEl  = document.getElementById('resultTitle');
+  const msgEl    = document.getElementById('resultMsg');
+  const iconEl   = document.getElementById('resultIcon');
+
+  const makeData     = compatibleVehicles[make];
+  const modelData    = makeData && makeData[model];
+  const isCompatible = modelData && modelData.includes(year);
+
+  resultEl.className = 'result visible ' + (isCompatible ? 'compatible' : 'not-compatible');
+  resultEl.style.display = 'flex';
+
+  if (isCompatible) {
+    iconEl.textContent  = '✅';
+    titleEl.textContent = 'Compatible!';
+    msgEl.textContent   = '';
+  } else {
+    iconEl.textContent  = '🚫';
+    titleEl.textContent = 'Not Compatible';
+    msgEl.textContent   = 'Sorry, your ' + year + ' ' + make + ' ' + model + ' is not currently compatible. We keep adding new vehicles — please check back soon!';
+  }
+}
+
+function pulseField(id) {
+  const el = document.getElementById(id);
+  el.style.borderColor = 'var(--red)';
+  el.style.boxShadow = '0 0 0 3px rgba(255,77,77,0.2)';
+  setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 1200);
+}
+
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+  if (!isOpen) item.classList.add('open');
+}
+</script>
+</body>
+</html>
