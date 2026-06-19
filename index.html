@@ -46,92 +46,295 @@
     z-index: 0;
   }
 
-  header {
+  /* LOGO */
+  .logo-section {
     position: relative;
-    z-index: 10;
+    z-index: 1;
     display: flex;
-    align-items: center;
     justify-content: center;
-    padding: 20px 48px;
-   
-    background: rgba(5,5,7,0.85);
-    
+    padding: 50px 24px 10px;
   }
 
+  .logo-section img {
+    width: 260px;
+    height: 260px;
+    object-fit: contain;
+  }
 
-  .logo-wrap img { height: 80px; width: 80px; object-fit: contain; }
+  /* HERO */
+  .hero {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 20px 24px 48px;
+  }
 
-  .hero { position: relative; z-index: 1; text-align: center; padding: 80px 24px 48px; }
+  .eyebrow {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--blue-bright);
+    margin-bottom: 20px;
+    opacity: 0.85;
+  }
 
-  .eyebrow { font-family: 'Share Tech Mono', monospace; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--blue-bright); margin-bottom: 20px; opacity: 0.85; }
+  h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--chrome-light);
+    margin-bottom: 16px;
+  }
 
-  h1 { font-family: 'Rajdhani', sans-serif; font-size: clamp(2.4rem, 6vw, 4.2rem); font-weight: 700; line-height: 1.05; letter-spacing: 0.04em; text-transform: uppercase; color: var(--chrome-light); margin-bottom: 16px; }
+  h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--blue-bright) 0%, #7ab8ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
 
-  h1 em { font-style: normal; background: linear-gradient(135deg, var(--blue-bright) 0%, #7ab8ff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 480px;
+    margin: 0 auto 56px;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+  }
 
-  .hero-sub { font-size: 1rem; color: var(--muted); max-width: 480px; margin: 0 auto 56px; font-weight: 400; letter-spacing: 0.01em; }
+  /* CHECKER */
+  .checker-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+  }
 
-  .checker-wrap { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 0 24px 60px; }
+  .checker-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 44px 44px 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      0 0 0 1px rgba(26,110,245,0.12),
+      0 32px 64px rgba(0,0,0,0.6),
+      0 0 80px rgba(26,110,245,0.06);
+  }
 
-  .checker-card { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 44px 44px 40px; position: relative; overflow: hidden; box-shadow: 0 0 0 1px rgba(26,110,245,0.12), 0 32px 64px rgba(0,0,0,0.6), 0 0 80px rgba(26,110,245,0.06); }
-
-  .checker-card::before, .checker-card::after { content: ''; position: absolute; width: 24px; height: 24px; border-color: var(--blue); border-style: solid; }
+  .checker-card::before,
+  .checker-card::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-color: var(--blue);
+    border-style: solid;
+  }
   .checker-card::before { top: 14px; left: 14px; border-width: 2px 0 0 2px; }
   .checker-card::after  { bottom: 14px; right: 14px; border-width: 0 2px 2px 0; }
 
-  .card-label { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue-bright); margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
-  .card-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--blue) 0%, transparent 100%); opacity: 0.4; }
+  .card-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue-bright);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--blue) 0%, transparent 100%);
+    opacity: 0.4;
+  }
 
-  .fields { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+  .fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
   .field-group { display: flex; flex-direction: column; gap: 8px; }
-  .field-group label { font-family: 'Rajdhani', sans-serif; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--chrome-mid); }
 
-  select { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 8px; color: var(--chrome-light); font-family: 'Inter', sans-serif; font-size: 0.95rem; padding: 13px 14px; outline: none; transition: border-color 0.2s, box-shadow 0.2s, background 0.2s; appearance: none; -webkit-appearance: none; cursor: pointer; }
-  select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,110,245,0.18); background: rgba(26,110,245,0.06); }
+  .field-group label {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--chrome-mid);
+  }
+
+  select {
+    width: 100%;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: var(--chrome-light);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    padding: 13px 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+  select:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(26,110,245,0.18);
+    background: rgba(26,110,245,0.06);
+  }
   select option { background: #111118; }
 
-  .btn-check { width: 100%; padding: 16px; background: var(--blue); border: none; border-radius: 10px; color: #fff; font-family: 'Rajdhani', sans-serif; font-size: 1.05rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: background 0.2s, box-shadow 0.2s, transform 0.1s; }
-  .btn-check:hover { background: var(--blue-bright); box-shadow: 0 0 24px var(--blue-glow), 0 4px 12px rgba(0,0,0,0.4); }
+  .btn-check {
+    width: 100%;
+    padding: 16px;
+    background: var(--blue);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+  }
+  .btn-check:hover {
+    background: var(--blue-bright);
+    box-shadow: 0 0 24px var(--blue-glow), 0 4px 12px rgba(0,0,0,0.4);
+  }
   .btn-check:active { transform: scale(0.985); }
 
-  .scan-line { position: absolute; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--blue-bright), transparent); top: 0; pointer-events: none; opacity: 0; }
+  .scan-line {
+    position: absolute;
+    left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--blue-bright), transparent);
+    top: 0;
+    pointer-events: none;
+    opacity: 0;
+  }
   .scanning .scan-line { animation: scan 1.2s ease-in-out forwards; }
   @keyframes scan { 0% { top: 0%; opacity: 0.9; } 100% { top: 100%; opacity: 0; } }
 
-  .result { margin-top: 28px; border-radius: 10px; padding: 24px; display: none; animation: fadeUp 0.35s ease forwards; }
+  .result {
+    margin-top: 28px;
+    border-radius: 10px;
+    padding: 24px;
+    display: none;
+    animation: fadeUp 0.35s ease forwards;
+  }
   .result.visible { display: flex; align-items: center; gap: 16px; }
   .result.compatible     { background: rgba(0,230,118,0.07); border: 1px solid rgba(0,230,118,0.3); }
   .result.not-compatible { background: rgba(255,77,77,0.07);  border: 1px solid rgba(255,77,77,0.25); }
   .result-icon { font-size: 1.8rem; line-height: 1; flex-shrink: 0; }
   .result-body { flex: 1; }
-  .result-title { font-family: 'Rajdhani', sans-serif; font-size: 1.2rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+  .result-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
   .result.compatible .result-title     { color: var(--green); }
   .result.not-compatible .result-title { color: var(--red); }
   .result-msg { font-size: 0.9rem; color: var(--text); line-height: 1.55; margin-top: 4px; }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
   /* FAQ */
-  .faq-section { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 0 24px 80px; }
+  .faq-section {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
 
-  .faq-heading { font-family: 'Share Tech Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue-bright); margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-  .faq-heading::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--blue) 0%, transparent 100%); opacity: 0.4; }
+  .faq-heading {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--blue-bright);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .faq-heading::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--blue) 0%, transparent 100%);
+    opacity: 0.4;
+  }
 
-  .faq-item { border: 1px solid var(--border); border-radius: 10px; margin-bottom: 10px; overflow: hidden; background: var(--panel); }
+  .faq-item {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    background: var(--panel);
+  }
 
-  .faq-question { width: 100%; background: none; border: none; text-align: left; padding: 18px 20px; font-family: 'Rajdhani', sans-serif; font-size: 1rem; font-weight: 600; letter-spacing: 0.03em; color: var(--chrome-light); cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 12px; transition: color 0.2s; }
+  .faq-question {
+    width: 100%;
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 18px 20px;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--chrome-light);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    transition: color 0.2s;
+  }
   .faq-question:hover { color: var(--blue-bright); }
   .faq-arrow { flex-shrink: 0; font-size: 0.7rem; color: var(--blue-bright); transition: transform 0.25s; }
   .faq-item.open .faq-arrow { transform: rotate(180deg); }
 
-  .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.25s; padding: 0 20px; font-size: 0.9rem; color: var(--text); line-height: 1.75; }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.25s;
+    padding: 0 20px;
+    font-size: 0.9rem;
+    color: var(--text);
+    line-height: 1.75;
+  }
   .faq-item.open .faq-answer { max-height: 1400px; padding: 0 20px 20px; }
-  .faq-answer ul { padding-left: 18px; margin-top: 10px; }
+  .faq-answer ul, .faq-answer ol { padding-left: 18px; margin-top: 10px; }
   .faq-answer li { margin-bottom: 5px; }
   .faq-answer p + p { margin-top: 10px; }
-  .faq-answer ol { padding-left: 18px; margin-top: 10px; }
 
   @media (max-width: 680px) {
-    header { padding: 16px 20px; }
+    .logo-section img { width: 180px; height: 180px; }
     .checker-card { padding: 28px 20px; }
     .fields { grid-template-columns: 1fr; }
     h1 { font-size: 2rem; }
@@ -146,18 +349,19 @@
 </head>
 <body>
 
-<header>
-  <div class="logo-wrap">
-    <img src="autopilotz logo.jpeg" alt="Auto Pilotz Logo">
-  </div>
-</header>
+<!-- LOGO -->
+<div class="logo-section">
+  <img src="autopilotz logo.jpeg" alt="Auto Pilotz Logo">
+</div>
 
+<!-- HERO -->
 <section class="hero">
   <p class="eyebrow">&#9656; Self-Drive System &nbsp;|&nbsp; Vehicle Lookup</p>
   <h1>Is Your Car<br><em>Autopilot Ready?</em></h1>
   <p class="hero-sub">Enter your vehicle details below to instantly check compatibility with the self-drive system.</p>
 </section>
 
+<!-- CHECKER -->
 <div class="checker-wrap">
   <div class="checker-card" id="checkerCard">
     <div class="scan-line" id="scanLine"></div>
@@ -293,297 +497,32 @@
 
 <script>
 const compatibleVehicles = {
-  "Acura": {
-    "ILX": [2016,2017,2018,2019],
-    "MDX": [2022,2023,2024,2025,2026],
-    "RDX": [2016,2017,2018,2019,2020,2021],
-    "TLX": [2021,2022,2025]
-  },
-  "Audi": {
-    "A3": [2014,2015,2016,2017,2018,2019],
-    "A3 Sportback e-tron": [2017,2018],
-    "Q2": [2018],
-    "Q3": [2019,2020,2021,2022,2023,2024],
-    "RS3": [2018],
-    "S3": [2015,2016,2017]
-  },
-  "Chevrolet": {
-    "Bolt EUV": [2022,2023],
-    "Bolt EV": [2022,2023],
-    "Equinox": [2019,2020,2021,2022],
-    "Silverado 1500": [2020,2021],
-    "Trailblazer": [2021,2022]
-  },
-  "Chrysler": {
-    "Pacifica": [2017,2018,2019,2020,2021,2022,2023],
-    "Pacifica Hybrid": [2017,2018,2019,2020,2021,2022,2023,2024,2025]
-  },
-  "CUPRA": {
-    "Ateca": [2018,2019,2020,2021,2022,2023]
-  },
-  "Dodge": {
-    "Durango": [2020,2021]
-  },
-  "Ford": {
-    "Bronco Sport": [2021,2022,2023,2024],
-    "Escape": [2020,2021,2022,2023,2024],
-    "Escape Hybrid": [2020,2021,2022,2023,2024],
-    "Escape Plug-in Hybrid": [2020,2021,2022,2023,2024],
-    "Expedition": [2022,2023,2024],
-    "Explorer": [2020,2021,2022,2023,2024],
-    "Explorer Hybrid": [2020,2021,2022,2023,2024],
-    "F-150": [2021,2022,2023],
-    "F-150 Hybrid": [2021,2022,2023],
-    "Focus": [2018,2019,2020,2021,2022],
-    "Focus Hybrid": [2018,2019,2020,2021,2022],
-    "Kuga": [2020,2021,2022,2023],
-    "Kuga Hybrid": [2020,2021,2022,2023,2024],
-    "Kuga Plug-in Hybrid": [2020,2021,2022,2023,2024],
-    "Maverick": [2022,2023,2024],
-    "Maverick Hybrid": [2022,2023,2024],
-    "Mustang Mach-E": [2021,2022,2023,2024],
-    "Ranger": [2024]
-  },
-  "Genesis": {
-    "G70": [2018,2019,2020,2021,2022,2023],
-    "G80": [2017,2018,2019,2024],
-    "G80 (2.5T Advanced Trim, with HDA II)": [2024],
-    "G90": [2017,2018,2019,2020],
-    "GV60 (Advanced Trim)": [2023],
-    "GV60 (Performance Trim)": [2022,2023],
-    "GV70 (2.5T Trim, without HDA II)": [2022,2023,2024],
-    "GV70 (3.5T Trim, without HDA II)": [2022,2023],
-    "GV70 Electrified (Australia Only)": [2022],
-    "GV70 Electrified (with HDA II)": [2023,2024],
-    "GV80": [2023]
-  },
-  "GMC": {
-    "Sierra 1500": [2020,2021]
-  },
-  "Honda": {
-    "Accord": [2018,2019,2020,2021,2022,2023,2024,2025],
-    "Accord Hybrid": [2018,2019,2020,2021,2022,2023,2024,2025,2026],
-    "City (Brazil only)": [2023],
-    "Civic": [2016,2017,2018,2019,2020,2021,2022,2023,2024],
-    "Civic Hatchback": [2017,2018,2019,2020,2021,2022,2023,2024],
-    "Civic Hatchback Hybrid": [2025,2026],
-    "Civic Hatchback Hybrid (Europe only)": [2023],
-    "Civic Hybrid": [2025,2026],
-    "CR-V": [2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026],
-    "CR-V Hybrid": [2017,2018,2019,2020,2021,2022,2023,2024,2025,2026],
-    "e": [2020],
-    "Fit": [2018,2019,2020],
-    "Freed": [2020],
-    "HR-V": [2019,2020,2021,2022,2023,2024,2025],
-    "Insight": [2019,2020,2021,2022],
-    "Inspire": [2018],
-    "N-Box": [2018],
-    "Odyssey": [2018,2019,2020,2021,2022,2023,2024,2025,2026],
-    "Odyssey (Singapore)": [2021],
-    "Odyssey (Taiwan)": [2018,2019],
-    "Passport": [2019,2020,2021,2022,2023,2024,2025,2026],
-    "Pilot": [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
-    "Ridgeline": [2017,2018,2019,2020,2021,2022,2023,2024,2025]
-  },
-  "Hyundai": {
-    "Azera": [2022],
-    "Azera Hybrid": [2019,2020],
-    "Custin": [2023],
-    "Elantra": [2017,2018,2019,2021,2022,2023],
-    "Elantra GT": [2017,2018,2019,2020],
-    "Elantra Hybrid": [2021,2022,2023],
-    "Genesis": [2015,2016],
-    "i30": [2017,2018,2019],
-    "Ioniq 5 (Southeast Asia and Europe only)": [2022,2023,2024],
-    "Ioniq 5 (with HDA II)": [2022,2023,2024],
-    "Ioniq 5 (without HDA II)": [2022,2023,2024],
-    "Ioniq 6 (with HDA II)": [2023,2024],
-    "Ioniq 6 (without HDA II)": [2023,2024],
-    "Ioniq Electric": [2019,2020],
-    "Ioniq Hybrid": [2017,2018,2019,2020,2021,2022],
-    "Ioniq Plug-in Hybrid": [2019,2020,2021,2022],
-    "Kona": [2020],
-    "Kona Electric": [2018,2019,2020,2021,2022,2023],
-    "Kona Electric (with HDA II, Korea only)": [2023],
-    "Kona Hybrid": [2020],
-    "Nexo": [2021],
-    "Palisade": [2020,2021,2022],
-    "Santa Cruz": [2022,2023,2024],
-    "Santa Fe": [2019,2020,2021,2022,2023],
-    "Santa Fe Hybrid": [2022,2023],
-    "Santa Fe Plug-in Hybrid": [2022,2023],
-    "Sonata": [2018,2019,2020,2021,2022,2023],
-    "Sonata Hybrid": [2020,2021,2022,2023],
-    "Staria": [2023],
-    "Tucson": [2021,2022,2023,2024],
-    "Tucson Diesel": [2019],
-    "Tucson Hybrid": [2022,2023,2024],
-    "Tucson Plug-in Hybrid": [2024],
-    "Veloster": [2019,2020]
-  },
-  "Jeep": {
-    "Grand Cherokee": [2016,2017,2018,2019,2020,2021]
-  },
-  "Kia": {
-    "Carnival": [2022,2023,2024],
-    "Carnival (China only)": [2023],
-    "Ceed": [2019,2020,2021],
-    "EV6 (Southeast Asia only)": [2022,2023,2024],
-    "EV6 (with HDA II)": [2022,2023,2024],
-    "EV6 (without HDA II)": [2022,2023,2024],
-    "Forte": [2019,2020,2021,2022,2023],
-    "K5": [2021,2022,2023,2024],
-    "K5 Hybrid": [2020,2021,2022],
-    "K7": [2017],
-    "K8 Hybrid (with HDA II)": [2023],
-    "Niro EV": [2019,2020,2021,2022,2023,2024,2025],
-    "Niro EV (with HDA II)": [2024,2025],
-    "Niro EV (without HDA II)": [2023,2024,2025],
-    "Niro Hybrid": [2018,2021,2022,2023,2024],
-    "Niro Plug-in Hybrid": [2018,2019,2020,2021,2022],
-    "Optima": [2017,2019,2020],
-    "Optima Hybrid": [2019],
-    "Seltos": [2021],
-    "Sorento": [2018,2019,2021,2022,2023],
-    "Sorento Hybrid": [2021,2022,2023],
-    "Sorento Plug-in Hybrid": [2022,2023],
-    "Sportage": [2023,2024],
-    "Sportage Hybrid": [2023],
-    "Stinger": [2018,2019,2020,2022,2023],
-    "Telluride": [2020,2021,2022]
-  },
-  "Lexus": {
-    "CT Hybrid": [2017,2018],
-    "ES": [2017,2018,2019,2020,2021,2022,2023,2024,2025],
-    "ES Hybrid": [2017,2018,2019,2020,2021,2022,2023,2024,2025],
-    "GS F": [2016],
-    "IS": [2017,2018,2019,2022,2023,2024],
-    "LC": [2024,2025],
-    "LS": [2018],
-    "NX": [2018,2019,2020,2021],
-    "NX Hybrid": [2018,2019,2020,2021],
-    "RC": [2018,2019,2020,2023],
-    "RX": [2016,2017,2018,2019,2020,2021,2022],
-    "RX Hybrid": [2016,2017,2018,2019,2020,2021,2022],
-    "UX Hybrid": [2019,2020,2021,2022,2023,2024]
-  },
-  "Lincoln": {
-    "Aviator": [2020,2021,2022,2023,2024],
-    "Aviator Plug-in Hybrid": [2020,2021,2022,2023,2024]
-  },
-  "MAN": {
-    "eTGE": [2020,2021,2022,2023,2024],
-    "TGE": [2017,2018,2019,2020,2021,2022,2023,2024]
-  },
-  "Mazda": {
-    "CX-5": [2022,2023,2024,2025],
-    "CX-9": [2021,2022,2023]
-  },
-  "Nissan": {
-    "Altima": [2019,2020,2021,2022,2023,2024],
-    "Leaf": [2018,2019,2020,2021,2022,2023],
-    "Rogue": [2018,2019,2020],
-    "X-Trail": [2017]
-  },
-  "Ram": {
-    "1500": [2019,2020,2021,2022,2023,2024]
-  },
-  "Rivian": {
-    "R1S": [2022,2023,2024],
-    "R1T": [2022,2023,2024]
-  },
-  "SEAT": {
-    "Ateca": [2016,2017,2018,2019,2020,2021,2022,2023],
-    "Leon": [2014,2015,2016,2017,2018,2019,2020]
-  },
-  "Subaru": {
-    "Ascent": [2019,2020,2021],
-    "Crosstrek": [2018,2019,2020,2021,2022,2023],
-    "Forester": [2019,2020,2021],
-    "Impreza": [2017,2018,2019,2020,2021,2022],
-    "Legacy": [2020,2021,2022],
-    "Outback": [2020,2021,2022],
-    "XV": [2018,2019,2020,2021]
-  },
-  "Skoda": {
-    "Fabia": [2022,2023],
-    "Kamiq": [2021,2022,2023],
-    "Karoq": [2019,2020,2021,2022,2023],
-    "Kodiaq": [2017,2018,2019,2020,2021,2022,2023],
-    "Octavia": [2015,2016,2017,2018,2019],
-    "Octavia RS": [2016],
-    "Octavia Scout": [2017,2018,2019],
-    "Scala": [2020,2021,2022,2023],
-    "Superb": [2015,2016,2017,2018,2019,2020,2021,2022]
-  },
-  "Tesla": {
-    "Model 3 (with HW3)": [2019,2020,2021,2022,2023],
-    "Model 3 (with HW4)": [2024,2025],
-    "Model Y (with HW3)": [2020,2021,2022,2023],
-    "Model Y (with HW4)": [2024,2025]
-  },
-  "Toyota": {
-    "Alphard": [2019,2020,2021],
-    "Alphard Hybrid": [2021],
-    "Avalon": [2016,2017,2018,2019,2020,2021,2022],
-    "Avalon Hybrid": [2019,2020,2021,2022],
-    "C-HR": [2017,2018,2019,2020,2021],
-    "C-HR Hybrid": [2017,2018,2019,2020,2021,2022],
-    "Camry": [2018,2019,2020,2021,2022,2023,2024],
-    "Camry Hybrid": [2018,2019,2020,2021,2022,2023,2024],
-    "Corolla": [2017,2018,2019,2020,2021,2022],
-    "Corolla Cross (Non-US only)": [2020,2021,2022,2023],
-    "Corolla Cross Hybrid (Non-US only)": [2020,2021,2022],
-    "Corolla Hatchback": [2019,2020,2021,2022],
-    "Corolla Hybrid": [2020,2021,2022,2023],
-    "Highlander": [2017,2018,2019,2020,2021,2022,2023],
-    "Highlander Hybrid": [2017,2018,2019,2020,2021,2022,2023],
-    "Mirai": [2021],
-    "Prius": [2016,2017,2018,2019,2020,2021,2022],
-    "Prius Prime": [2017,2018,2019,2020,2021,2022],
-    "Prius v": [2017],
-    "RAV4": [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
-    "RAV4 Hybrid": [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
-    "Sienna": [2018,2019,2020]
-  },
-  "Volkswagen": {
-    "Arteon": [2018,2019,2020,2021,2022,2023],
-    "Arteon eHybrid": [2020,2021,2022,2023],
-    "Arteon R": [2020,2021,2022,2023],
-    "Arteon Shooting Brake": [2020,2021,2022,2023],
-    "Atlas": [2018,2019,2020,2021,2022,2023],
-    "Atlas Cross Sport": [2020,2021,2022],
-    "California": [2021,2022,2023],
-    "Caravelle": [2020],
-    "CC": [2018,2019,2020,2021,2022],
-    "Crafter": [2017,2018,2019,2020,2021,2022,2023,2024],
-    "e-Crafter": [2018,2019,2020,2021,2022,2023,2024],
-    "e-Golf": [2014,2015,2016,2017,2018,2019,2020],
-    "Golf": [2015,2016,2017,2018,2019,2020],
-    "Golf Alltrack": [2015,2016,2017,2018,2019],
-    "Golf GTD": [2015,2016,2017,2018,2019,2020],
-    "Golf GTE": [2015,2016,2017,2018,2019,2020],
-    "Golf GTI": [2015,2016,2017,2018,2019,2020,2021],
-    "Golf R": [2015,2016,2017,2018,2019],
-    "Golf SportsVan": [2015,2016,2017,2018,2019,2020],
-    "Grand California": [2019,2020,2021,2022,2023,2024],
-    "Jetta": [2019,2020,2021,2022,2023],
-    "Jetta GLI": [2021,2022,2023],
-    "Passat": [2015,2016,2017,2018,2019,2020,2021,2022],
-    "Passat Alltrack": [2015,2016,2017,2018,2019,2020,2021,2022],
-    "Passat GTE": [2015,2016,2017,2018,2019,2020,2021,2022],
-    "Polo": [2018,2019,2020,2021,2022,2023],
-    "Polo GTI": [2018,2019,2020,2021,2022,2023],
-    "T-Cross": [2021],
-    "T-Roc": [2018,2019,2020,2021,2022,2023],
-    "Taos": [2022,2023,2024],
-    "Teramont": [2018,2019,2020,2021,2022],
-    "Teramont Cross Sport": [2021,2022],
-    "Teramont X": [2021,2022],
-    "Tiguan": [2018,2019,2020,2021,2022,2023,2024],
-    "Tiguan eHybrid": [2021,2022,2023],
-    "Touran": [2016,2017,2018,2019,2020,2021,2022,2023]
-  }
+  "Acura": { "ILX": [2016,2017,2018,2019], "MDX": [2022,2023,2024,2025,2026], "RDX": [2016,2017,2018,2019,2020,2021], "TLX": [2021,2022,2025] },
+  "Audi": { "A3": [2014,2015,2016,2017,2018,2019], "A3 Sportback e-tron": [2017,2018], "Q2": [2018], "Q3": [2019,2020,2021,2022,2023,2024], "RS3": [2018], "S3": [2015,2016,2017] },
+  "Chevrolet": { "Bolt EUV": [2022,2023], "Bolt EV": [2022,2023], "Equinox": [2019,2020,2021,2022], "Silverado 1500": [2020,2021], "Trailblazer": [2021,2022] },
+  "Chrysler": { "Pacifica": [2017,2018,2019,2020,2021,2022,2023], "Pacifica Hybrid": [2017,2018,2019,2020,2021,2022,2023,2024,2025] },
+  "CUPRA": { "Ateca": [2018,2019,2020,2021,2022,2023] },
+  "Dodge": { "Durango": [2020,2021] },
+  "Ford": { "Bronco Sport": [2021,2022,2023,2024], "Escape": [2020,2021,2022,2023,2024], "Escape Hybrid": [2020,2021,2022,2023,2024], "Escape Plug-in Hybrid": [2020,2021,2022,2023,2024], "Expedition": [2022,2023,2024], "Explorer": [2020,2021,2022,2023,2024], "Explorer Hybrid": [2020,2021,2022,2023,2024], "F-150": [2021,2022,2023], "F-150 Hybrid": [2021,2022,2023], "Focus": [2018,2019,2020,2021,2022], "Focus Hybrid": [2018,2019,2020,2021,2022], "Kuga": [2020,2021,2022,2023], "Kuga Hybrid": [2020,2021,2022,2023,2024], "Kuga Plug-in Hybrid": [2020,2021,2022,2023,2024], "Maverick": [2022,2023,2024], "Maverick Hybrid": [2022,2023,2024], "Mustang Mach-E": [2021,2022,2023,2024], "Ranger": [2024] },
+  "Genesis": { "G70": [2018,2019,2020,2021,2022,2023], "G80": [2017,2018,2019,2024], "G80 (2.5T Advanced Trim, with HDA II)": [2024], "G90": [2017,2018,2019,2020], "GV60 (Advanced Trim)": [2023], "GV60 (Performance Trim)": [2022,2023], "GV70 (2.5T Trim, without HDA II)": [2022,2023,2024], "GV70 (3.5T Trim, without HDA II)": [2022,2023], "GV70 Electrified (Australia Only)": [2022], "GV70 Electrified (with HDA II)": [2023,2024], "GV80": [2023] },
+  "GMC": { "Sierra 1500": [2020,2021] },
+  "Honda": { "Accord": [2018,2019,2020,2021,2022,2023,2024,2025], "Accord Hybrid": [2018,2019,2020,2021,2022,2023,2024,2025,2026], "City (Brazil only)": [2023], "Civic": [2016,2017,2018,2019,2020,2021,2022,2023,2024], "Civic Hatchback": [2017,2018,2019,2020,2021,2022,2023,2024], "Civic Hatchback Hybrid": [2025,2026], "Civic Hatchback Hybrid (Europe only)": [2023], "Civic Hybrid": [2025,2026], "CR-V": [2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025,2026], "CR-V Hybrid": [2017,2018,2019,2020,2021,2022,2023,2024,2025,2026], "e": [2020], "Fit": [2018,2019,2020], "Freed": [2020], "HR-V": [2019,2020,2021,2022,2023,2024,2025], "Insight": [2019,2020,2021,2022], "Inspire": [2018], "N-Box": [2018], "Odyssey": [2018,2019,2020,2021,2022,2023,2024,2025,2026], "Odyssey (Singapore)": [2021], "Odyssey (Taiwan)": [2018,2019], "Passport": [2019,2020,2021,2022,2023,2024,2025,2026], "Pilot": [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025], "Ridgeline": [2017,2018,2019,2020,2021,2022,2023,2024,2025] },
+  "Hyundai": { "Azera": [2022], "Azera Hybrid": [2019,2020], "Custin": [2023], "Elantra": [2017,2018,2019,2021,2022,2023], "Elantra GT": [2017,2018,2019,2020], "Elantra Hybrid": [2021,2022,2023], "Genesis": [2015,2016], "i30": [2017,2018,2019], "Ioniq 5 (Southeast Asia and Europe only)": [2022,2023,2024], "Ioniq 5 (with HDA II)": [2022,2023,2024], "Ioniq 5 (without HDA II)": [2022,2023,2024], "Ioniq 6 (with HDA II)": [2023,2024], "Ioniq 6 (without HDA II)": [2023,2024], "Ioniq Electric": [2019,2020], "Ioniq Hybrid": [2017,2018,2019,2020,2021,2022], "Ioniq Plug-in Hybrid": [2019,2020,2021,2022], "Kona": [2020], "Kona Electric": [2018,2019,2020,2021,2022,2023], "Kona Electric (with HDA II, Korea only)": [2023], "Kona Hybrid": [2020], "Nexo": [2021], "Palisade": [2020,2021,2022], "Santa Cruz": [2022,2023,2024], "Santa Fe": [2019,2020,2021,2022,2023], "Santa Fe Hybrid": [2022,2023], "Santa Fe Plug-in Hybrid": [2022,2023], "Sonata": [2018,2019,2020,2021,2022,2023], "Sonata Hybrid": [2020,2021,2022,2023], "Staria": [2023], "Tucson": [2021,2022,2023,2024], "Tucson Diesel": [2019], "Tucson Hybrid": [2022,2023,2024], "Tucson Plug-in Hybrid": [2024], "Veloster": [2019,2020] },
+  "Jeep": { "Grand Cherokee": [2016,2017,2018,2019,2020,2021] },
+  "Kia": { "Carnival": [2022,2023,2024], "Carnival (China only)": [2023], "Ceed": [2019,2020,2021], "EV6 (Southeast Asia only)": [2022,2023,2024], "EV6 (with HDA II)": [2022,2023,2024], "EV6 (without HDA II)": [2022,2023,2024], "Forte": [2019,2020,2021,2022,2023], "K5": [2021,2022,2023,2024], "K5 Hybrid": [2020,2021,2022], "K7": [2017], "K8 Hybrid (with HDA II)": [2023], "Niro EV": [2019,2020,2021,2022,2023,2024,2025], "Niro EV (with HDA II)": [2024,2025], "Niro EV (without HDA II)": [2023,2024,2025], "Niro Hybrid": [2018,2021,2022,2023,2024], "Niro Plug-in Hybrid": [2018,2019,2020,2021,2022], "Optima": [2017,2019,2020], "Optima Hybrid": [2019], "Seltos": [2021], "Sorento": [2018,2019,2021,2022,2023], "Sorento Hybrid": [2021,2022,2023], "Sorento Plug-in Hybrid": [2022,2023], "Sportage": [2023,2024], "Sportage Hybrid": [2023], "Stinger": [2018,2019,2020,2022,2023], "Telluride": [2020,2021,2022] },
+  "Lexus": { "CT Hybrid": [2017,2018], "ES": [2017,2018,2019,2020,2021,2022,2023,2024,2025], "ES Hybrid": [2017,2018,2019,2020,2021,2022,2023,2024,2025], "GS F": [2016], "IS": [2017,2018,2019,2022,2023,2024], "LC": [2024,2025], "LS": [2018], "NX": [2018,2019,2020,2021], "NX Hybrid": [2018,2019,2020,2021], "RC": [2018,2019,2020,2023], "RX": [2016,2017,2018,2019,2020,2021,2022], "RX Hybrid": [2016,2017,2018,2019,2020,2021,2022], "UX Hybrid": [2019,2020,2021,2022,2023,2024] },
+  "Lincoln": { "Aviator": [2020,2021,2022,2023,2024], "Aviator Plug-in Hybrid": [2020,2021,2022,2023,2024] },
+  "MAN": { "eTGE": [2020,2021,2022,2023,2024], "TGE": [2017,2018,2019,2020,2021,2022,2023,2024] },
+  "Mazda": { "CX-5": [2022,2023,2024,2025], "CX-9": [2021,2022,2023] },
+  "Nissan": { "Altima": [2019,2020,2021,2022,2023,2024], "Leaf": [2018,2019,2020,2021,2022,2023], "Rogue": [2018,2019,2020], "X-Trail": [2017] },
+  "Ram": { "1500": [2019,2020,2021,2022,2023,2024] },
+  "Rivian": { "R1S": [2022,2023,2024], "R1T": [2022,2023,2024] },
+  "SEAT": { "Ateca": [2016,2017,2018,2019,2020,2021,2022,2023], "Leon": [2014,2015,2016,2017,2018,2019,2020] },
+  "Subaru": { "Ascent": [2019,2020,2021], "Crosstrek": [2018,2019,2020,2021,2022,2023], "Forester": [2019,2020,2021], "Impreza": [2017,2018,2019,2020,2021,2022], "Legacy": [2020,2021,2022], "Outback": [2020,2021,2022], "XV": [2018,2019,2020,2021] },
+  "Skoda": { "Fabia": [2022,2023], "Kamiq": [2021,2022,2023], "Karoq": [2019,2020,2021,2022,2023], "Kodiaq": [2017,2018,2019,2020,2021,2022,2023], "Octavia": [2015,2016,2017,2018,2019], "Octavia RS": [2016], "Octavia Scout": [2017,2018,2019], "Scala": [2020,2021,2022,2023], "Superb": [2015,2016,2017,2018,2019,2020,2021,2022] },
+  "Tesla": { "Model 3 (with HW3)": [2019,2020,2021,2022,2023], "Model 3 (with HW4)": [2024,2025], "Model Y (with HW3)": [2020,2021,2022,2023], "Model Y (with HW4)": [2024,2025] },
+  "Toyota": { "Alphard": [2019,2020,2021], "Alphard Hybrid": [2021], "Avalon": [2016,2017,2018,2019,2020,2021,2022], "Avalon Hybrid": [2019,2020,2021,2022], "C-HR": [2017,2018,2019,2020,2021], "C-HR Hybrid": [2017,2018,2019,2020,2021,2022], "Camry": [2018,2019,2020,2021,2022,2023,2024], "Camry Hybrid": [2018,2019,2020,2021,2022,2023,2024], "Corolla": [2017,2018,2019,2020,2021,2022], "Corolla Cross (Non-US only)": [2020,2021,2022,2023], "Corolla Cross Hybrid (Non-US only)": [2020,2021,2022], "Corolla Hatchback": [2019,2020,2021,2022], "Corolla Hybrid": [2020,2021,2022,2023], "Highlander": [2017,2018,2019,2020,2021,2022,2023], "Highlander Hybrid": [2017,2018,2019,2020,2021,2022,2023], "Mirai": [2021], "Prius": [2016,2017,2018,2019,2020,2021,2022], "Prius Prime": [2017,2018,2019,2020,2021,2022], "Prius v": [2017], "RAV4": [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025], "RAV4 Hybrid": [2016,2017,2018,2019,2020,2021,2022,2023,2024,2025], "Sienna": [2018,2019,2020] },
+  "Volkswagen": { "Arteon": [2018,2019,2020,2021,2022,2023], "Arteon eHybrid": [2020,2021,2022,2023], "Arteon R": [2020,2021,2022,2023], "Arteon Shooting Brake": [2020,2021,2022,2023], "Atlas": [2018,2019,2020,2021,2022,2023], "Atlas Cross Sport": [2020,2021,2022], "California": [2021,2022,2023], "Caravelle": [2020], "CC": [2018,2019,2020,2021,2022], "Crafter": [2017,2018,2019,2020,2021,2022,2023,2024], "e-Crafter": [2018,2019,2020,2021,2022,2023,2024], "e-Golf": [2014,2015,2016,2017,2018,2019,2020], "Golf": [2015,2016,2017,2018,2019,2020], "Golf Alltrack": [2015,2016,2017,2018,2019], "Golf GTD": [2015,2016,2017,2018,2019,2020], "Golf GTE": [2015,2016,2017,2018,2019,2020], "Golf GTI": [2015,2016,2017,2018,2019,2020,2021], "Golf R": [2015,2016,2017,2018,2019], "Golf SportsVan": [2015,2016,2017,2018,2019,2020], "Grand California": [2019,2020,2021,2022,2023,2024], "Jetta": [2019,2020,2021,2022,2023], "Jetta GLI": [2021,2022,2023], "Passat": [2015,2016,2017,2018,2019,2020,2021,2022], "Passat Alltrack": [2015,2016,2017,2018,2019,2020,2021,2022], "Passat GTE": [2015,2016,2017,2018,2019,2020,2021,2022], "Polo": [2018,2019,2020,2021,2022,2023], "Polo GTI": [2018,2019,2020,2021,2022,2023], "T-Cross": [2021], "T-Roc": [2018,2019,2020,2021,2022,2023], "Taos": [2022,2023,2024], "Teramont": [2018,2019,2020,2021,2022], "Teramont Cross Sport": [2021,2022], "Teramont X": [2021,2022], "Tiguan": [2018,2019,2020,2021,2022,2023,2024], "Tiguan eHybrid": [2021,2022,2023], "Touran": [2016,2017,2018,2019,2020,2021,2022,2023] }
 };
 
 const yearSel  = document.getElementById('year');
